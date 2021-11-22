@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://TitleScreen/title.png" type="Texture" id=1]
 [ext_resource path="res://World/floor.png" type="Texture" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://TitleScreen/TitleScreen.gd" type="Script" id=7]
 [ext_resource path="res://TitleScreen/title_settings_button1.png" type="Texture" id=8]
 [ext_resource path="res://TitleScreen/title_settings_button2.png" type="Texture" id=9]
+[ext_resource path="res://TitleScreen/title_settings_back2.png" type="Texture" id=10]
+[ext_resource path="res://TitleScreen/title_settings_back1.png" type="Texture" id=11]
+[ext_resource path="res://RubikFont/Rubik-Bold.ttf" type="DynamicFontData" id=12]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -27,6 +30,41 @@ void fragment(){
 shader = SubResource( 1 )
 shader_param/direction = Vector2( 0.7, 0.7 )
 shader_param/speed_scale = 1.0
+
+[sub_resource type="DynamicFont" id=3]
+size = 30
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 35
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 47
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 12 )
+
+[sub_resource type="Animation" id=6]
+resource_name = "Waiting"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("WaitingLabel:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "Waiting for Player", "Waiting for Player.", "Waiting for Player..", "Waiting for Player..." ]
+}
 
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource( 7 )
@@ -56,6 +94,40 @@ texture = ExtResource( 1 )
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IPEdit" type="LineEdit" parent="SettingsMenu"]
+margin_left = 334.845
+margin_top = 330.594
+margin_right = 666.845
+margin_bottom = 380.594
+custom_fonts/font = SubResource( 3 )
+text = "127.0.0.1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackButton" type="TextureButton" parent="SettingsMenu"]
+margin_left = 14.0
+margin_top = 518.0
+margin_right = 25.0
+margin_bottom = 529.0
+rect_scale = Vector2( 6, 6 )
+texture_normal = ExtResource( 11 )
+texture_hover = ExtResource( 10 )
+
+[node name="IPLabel" type="Label" parent="SettingsMenu"]
+margin_left = 344.947
+margin_top = 276.192
+margin_right = 655.947
+margin_bottom = 318.192
+custom_fonts/font = SubResource( 4 )
+text = "Server IP Address"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -103,6 +175,44 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="HostingMenu" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WaitingLabel" type="Label" parent="HostingMenu"]
+margin_left = 296.61
+margin_top = 327.148
+margin_right = 712.61
+margin_bottom = 383.148
+custom_fonts/font = SubResource( 5 )
+text = "Waiting for Player..."
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HostingMenu"]
+autoplay = "Waiting"
+anims/Waiting = SubResource( 6 )
+
+[node name="IPLabel" type="Label" parent="HostingMenu"]
+margin_left = 3.0
+margin_top = 523.0
+margin_right = 1022.0
+margin_bottom = 565.0
+custom_fonts/font = SubResource( 4 )
+text = "Your Local IP:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="button_down" from="SettingsMenu/BackButton" to="." method="_on_BackButton_button_down"]
 [connection signal="button_down" from="MainMenu/Host" to="." method="_on_Host_button_down"]
 [connection signal="button_down" from="MainMenu/Join" to="." method="_on_Join_button_down"]
 [connection signal="button_down" from="MainMenu/SettingButton" to="." method="_on_SettingButton_button_down"]

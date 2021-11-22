@@ -65,3 +65,5 @@ tile_data = PoolIntArray( -458762, 0, 0, -458761, 0, 0, -458760, 0, 0, -458759, 
 
 [node name="PlayerSpawn" type="Position2D" parent="."]
 position = Vector2( 400, 300 )
+
+[node name="Players" type="YSort" parent="."]
